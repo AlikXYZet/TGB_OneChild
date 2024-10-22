@@ -22,11 +22,10 @@ AOC_Character::AOC_Character()
 
 	// Create a CameraComponent	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
-	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
-	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f)); // Position the camera
+	FirstPersonCameraComponent->SetupAttachment(GetMesh(), FName(TEXT("head")));
+	FirstPersonCameraComponent->SetRelativeLocation(FVector(0.f, 10.f, 0.f));
+	FirstPersonCameraComponent->SetRelativeRotation(FRotator(0.f, 90.f, -90.f));
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
-
-	GetMesh()->SetupAttachment(FirstPersonCameraComponent);
 	//-------------------------------------------
 
 
@@ -116,14 +115,14 @@ void AOC_Character::LookUpAtRate(float Rate)
 
 void AOC_Character::StartCrouch()
 {
-	// Предваарительно: Из стандартного кода UE
+	// Предварительно: Из стандартного кода UE
 	Super::Crouch();
 	// Remark: Желательно заменить на плавный присед персонажа
 }
 
 void AOC_Character::StopCrouch()
 {
-	// Предваарительно: Из стандартного кода UE
+	// Предварительно: Из стандартного кода UE
 	Super::UnCrouch();
 	// Remark: Желательно заменить на плавный присед персонажа
 }

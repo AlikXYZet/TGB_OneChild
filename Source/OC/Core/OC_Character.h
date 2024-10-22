@@ -93,11 +93,11 @@ public:
 
 	// Базовая скорость поворота, град/сек
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate = 45.f;
+	float BaseTurnRate = 90.f;
 
 	// Базовая скорость обзора вверх/вниз в градусах в секунду
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate = 45.f;
+	float BaseLookUpRate = 90.f;
 	//-------------------------------------------
 
 
