@@ -54,11 +54,14 @@ void ANoisyCoatings::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 
 	Preview();
+
+	// Обновление данных о типах
+	GetAllType();
 }
 
 void ANoisyCoatings::Preview()
 {
-	FTypeCoating* lCurrentSettingType = Types.Find(CurrentType);
+	FTypeCoating* lCurrentSettingType = SettingsEachType.Find(CurrentType);
 
 	if (lCurrentSettingType && lCurrentSettingType->CollisionMesh)
 	{
@@ -73,7 +76,7 @@ void ANoisyCoatings::Preview()
 
 void ANoisyCoatings::Checking()
 {
-	FTypeCoating* lCurrentSettingType = Types.Find(CurrentType);
+	FTypeCoating* lCurrentSettingType = SettingsEachType.Find(CurrentType);
 
 	if (lCurrentSettingType)
 	{
@@ -108,11 +111,11 @@ void ANoisyCoatings::NotifyActorBeginOverlap(AActor* OtherActor)
 
 void ANoisyCoatings::PlaySound()
 {
-	if (Types.Find(CurrentType)->WalkingSound)
+	if (SettingsEachType.Find(CurrentType)->WalkingSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(
 			GetWorld(),
-			Types.Find(CurrentType)->WalkingSound,
+			SettingsEachType.Find(CurrentType)->WalkingSound,
 			GetActorLocation());
 	}
 }
@@ -122,20 +125,10 @@ void ANoisyCoatings::PlaySound()
 
 /* ---   Type   --- */
 
-TArray<FString> ANoisyCoatings::GetAllType() const
+TArray<FString>& ANoisyCoatings::GetAllType()
 {
-	TArray<FString> rAllType;
+	SettingsEachType.GetKeys(AllType);
 
-	for (auto Data : Types)
-	{
-		rAllType.Add(Data.Key);
-	}
-
-	if (!rAllType.IsValidIndex(0))
-	{
-		rAllType.Add("NONE");
-	}
-
-	return rAllType;
+	return AllType;
 }
 //--------------------------------------------------------------------------------------

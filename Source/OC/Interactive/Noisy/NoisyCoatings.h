@@ -83,19 +83,24 @@ protected:
 	/* ---   Type   --- */
 
 	// Выбор текущего типа
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings,
-		meta = (GetOptions = "GetAllType"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings",
+		meta = (GetOptions = "AllType"))
 	FString CurrentType;
 
-	// Настраиваемый тип по имени
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Settings)
-	TMap<FString, FTypeCoating> Types;
+	// Массив именований всех типов
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings")
+	TArray<FString> AllType;
+
+	// Настройки каждого типа
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings",
+		meta = (GetKeyOptions = "AllType"))
+	TMap<FString, FTypeCoating> SettingsEachType;
 
 	//
 
 	/** Получить все типы */
 	UFUNCTION()
-	TArray<FString> GetAllType() const;
+	TArray<FString>& GetAllType();
 	//-------------------------------------------
 
 
@@ -137,5 +142,12 @@ private:
 
 	/** Воспроизведение звука, соответствующий выбранному типу */
 	void PlaySound();
+	//-------------------------------------------
+
+
+
+	/* ---   Type   --- */
+
+
 	//-------------------------------------------
 };

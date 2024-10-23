@@ -20,12 +20,17 @@ AOC_Character::AOC_Character()
 
 	/* ---   Components   --- */
 
-	// Create a CameraComponent	
-	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	// Камера от первого лица
+	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
 	FirstPersonCameraComponent->SetupAttachment(GetMesh(), FName(TEXT("head")));
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(0.f, 10.f, 0.f));
 	FirstPersonCameraComponent->SetRelativeRotation(FRotator(0.f, 90.f, -90.f));
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+
+	// Точка местоположения Подобранного Актора
+	TakenActorLocationPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Taken Actor Location Point"));;
+	TakenActorLocationPoint->SetupAttachment(FirstPersonCameraComponent);
+	TakenActorLocationPoint->SetRelativeLocation(FVector(40.f, 25.f, -30.f));
 	//-------------------------------------------
 
 
@@ -104,13 +109,13 @@ void AOC_Character::MoveRight(float Value)
 void AOC_Character::TurnAtRate(float Rate)
 {
 	// Вычисление дельты для текущего кадра на основе информации о скорости
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+	AddControllerYawInput(Rate * BaseTurnRate);
 }
 
 void AOC_Character::LookUpAtRate(float Rate)
 {
 	// Вычисление дельты для текущего кадра на основе информации о скорости
-	AddControllerPitchInput(-Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+	AddControllerPitchInput(-Rate * BaseLookUpRate);
 }
 
 void AOC_Character::StartCrouch()

@@ -37,10 +37,20 @@ public:
 
 	/* ---   Components   --- */
 
-	/** First person camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera,
+	// Камера от первого лица
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
 		meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
+
+	// Точка местоположения Подобранного Актора
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, 
+		meta = (AllowPrivateAccess = "true"))
+	USceneComponent* TakenActorLocationPoint = nullptr;
+
+	// Подобранный Актор
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, 
+		meta = (AllowPrivateAccess = "true"))
+	UChildActorComponent* TakenActor = nullptr;
 	//-------------------------------------------
 
 
@@ -93,11 +103,11 @@ public:
 
 	// Базовая скорость поворота, град/сек
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate = 90.f;
+	float BaseTurnRate = 1.f;
 
 	// Базовая скорость обзора вверх/вниз в градусах в секунду
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate = 90.f;
+	float BaseLookUpRate = 1.f;
 	//-------------------------------------------
 
 
