@@ -23,7 +23,7 @@ AInteractiveActor::AInteractiveActor()
 	// Меш-компонент данного актора (Корневой компонент)
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	RootComponent = Mesh;
-	Mesh->SetCollisionProfileName(UCollisionProfile::BlockAllDynamic_ProfileName);
+	Mesh->SetCollisionProfileName("IgnoreOnlyPawn");
 	Mesh->SetSimulatePhysics(true);
 	Mesh->SetEnableGravity(true);
 	//-------------------------------------------

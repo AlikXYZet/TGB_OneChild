@@ -19,7 +19,7 @@ AThrowableItem::AThrowableItem()
 	// Установка вызова функции Tick() в каждом кадре.
 	PrimaryActorTick.bCanEverTick = false; // Предварительно
 
-	// Включение событие поподания (задействует NotifyHit)
+	// Включение событие попадания (задействует NotifyHit)
 	Mesh->SetNotifyRigidBodyCollision(true);
 }
 //--------------------------------------------------------------------------------------
