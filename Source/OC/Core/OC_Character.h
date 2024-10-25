@@ -89,10 +89,12 @@ protected:
 	void LookUpAtRate(float Rate);
 
 	/** Начало Приседа */
-	void StartCrouch();
+	void ChangingCrouch();
 
-	/** Прекращение Приседа */
-	void StopCrouch();
+	/** */
+	UFUNCTION(BlueprintImplementableEvent, Category = "Hearing",
+		meta = (DisplayName = "PlayAnimCrouch"))
+	void EventPlayAnimCrouch();
 	//-------------------------------------------
 
 
@@ -108,6 +110,9 @@ public:
 	// Базовая скорость обзора вверх/вниз в градусах в секунду
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseLookUpRate = 1.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement|State Control")
+	bool bCrouchEnabled = false;
 	//-------------------------------------------
 
 

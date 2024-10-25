@@ -66,8 +66,7 @@ void AOC_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AOC_Character::StopJumping);
 
 	// Присед:
-	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AOC_Character::StartCrouch);
-	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AOC_Character::StopCrouch);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AOC_Character::ChangingCrouch);
 
 	// Перемещение:
 	PlayerInputComponent->BindAxis("MoveForward", this, &AOC_Character::MoveForward);
@@ -118,17 +117,24 @@ void AOC_Character::LookUpAtRate(float Rate)
 	AddControllerPitchInput(-Rate * BaseLookUpRate);
 }
 
-void AOC_Character::StartCrouch()
+void AOC_Character::ChangingCrouch()
 {
-	// Предварительно: Из стандартного кода UE
-	Super::Crouch();
-	// Remark: Желательно заменить на плавный присед персонажа
-}
+	if (bCrouchEnabled)
+	{
+		bCrouchEnabled = false;
 
-void AOC_Character::StopCrouch()
-{
-	// Предварительно: Из стандартного кода UE
-	Super::UnCrouch();
-	// Remark: Желательно заменить на плавный присед персонажа
+		// Предварительно: Из стандартного кода UE
+		Super::UnCrouch();
+		// Remark: Желательно заменить на плавный присед персонажа
+	}
+	else
+	{
+		bCrouchEnabled = true;
+		// Предварительно: Из стандартного кода UE
+		Super::Crouch();
+		// Remark: Желательно заменить на плавный присед персонажа
+	}
+
+	EventPlayAnimCrouch();
 }
 //--------------------------------------------------------------------------------------
