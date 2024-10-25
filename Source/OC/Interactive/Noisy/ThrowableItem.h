@@ -83,7 +83,7 @@ public:
 	float ThrowingPower = 5000.f;
 
 	// Чувствительность звука: Предел для получаемого импульса при ударе,
-	// при привышении которого воспроизводится звук удара
+	// при превышении которого воспроизводится звук удара
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	float SoundSensitivity = 1000.f;
 
