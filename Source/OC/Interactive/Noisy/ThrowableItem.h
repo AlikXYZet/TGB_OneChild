@@ -87,7 +87,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	float SoundSensitivity = 1000.f;
 
-	// Настройка затухания издоваемого звука
+	// Настройка затухания издаваемого звука
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	USoundAttenuation* SoundAttenuation = nullptr;
 
@@ -99,12 +99,24 @@ public:
 
 
 
+	/* ---   Collision   --- */
+
+	/** Event реакции на звук
+	@param	Location	- Местоположение источника звука
+	*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Hearing",
+		meta = (DisplayName = "Was Heard"))
+	void EventWasHeard(FVector Location);
+	//-------------------------------------------
+
+
+
 private:
 
 	/* ---   Collision   --- */
 
 	/** Воспроизведение звука при каком-либо ударе данного Актора */
-	void PlaySound();
+	void PlaySound(FVector& Location);
 	//-------------------------------------------
 
 

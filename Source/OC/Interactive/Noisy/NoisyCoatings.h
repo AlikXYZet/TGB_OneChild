@@ -96,6 +96,10 @@ protected:
 		meta = (GetKeyOptions = "AllType"))
 	TMap<FString, FTypeCoating> SettingsEachType;
 
+	// Настройка затухания издаваемого звука
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	USoundAttenuation* SoundAttenuation = nullptr;
+
 	//
 
 	/** Получить все типы */
@@ -121,6 +125,13 @@ public:
 
 	/**	Событие, когда этот Актор перекрывается с другим */
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+	/** Event реакции на звук
+	@param	Location	- Местоположение источника звука
+	*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Hearing",
+		meta = (DisplayName = "Was Heard"))
+	void EventWasHeard(FVector Location, APawn* Pawn);
 	//-------------------------------------------
 
 

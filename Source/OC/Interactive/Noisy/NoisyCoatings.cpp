@@ -107,6 +107,13 @@ void ANoisyCoatings::NotifyActorBeginOverlap(AActor* OtherActor)
 	Super::NotifyActorBeginOverlap(OtherActor);
 
 	PlaySound();
+
+	APawn* lPawn = Cast<APawn>(OtherActor);
+
+	if (lPawn)
+	{
+		EventWasHeard(GetActorLocation(), lPawn);
+	}
 }
 
 void ANoisyCoatings::PlaySound()
@@ -116,7 +123,11 @@ void ANoisyCoatings::PlaySound()
 		UGameplayStatics::PlaySoundAtLocation(
 			GetWorld(),
 			SettingsEachType.Find(CurrentType)->WalkingSound,
-			GetActorLocation());
+			GetActorLocation(),
+			1.f, // Default
+			1.f, // Default
+			0.f, // Default
+			SoundAttenuation);
 	}
 }
 //--------------------------------------------------------------------------------------
