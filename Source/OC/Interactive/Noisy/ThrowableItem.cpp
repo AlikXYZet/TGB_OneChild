@@ -62,24 +62,24 @@ void AThrowableItem::NotifyHit(
 
 	if (NormalImpulse.Size() >= SoundSensitivity)
 	{
-		PlaySound(HitLocation);
+		PlaySound();
+
+		EventWasHeard(HitLocation);
 	}
 }
 
-void AThrowableItem::PlaySound(FVector& iLocation)
+void AThrowableItem::PlaySound()
 {
 	if (HitSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(
 			GetWorld(),
 			HitSound,
-			iLocation,
+			GetActorLocation(),
 			1.f, // Default
 			1.f, // Default
 			0.f, // Default
 			SoundAttenuation);
-
-		EventWasHeard(iLocation);
 	}
 }
 //--------------------------------------------------------------------------------------
