@@ -5,6 +5,7 @@
 
 // UE:
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 // Interaction:
 #include "OC/Core/OC_Character.h"
@@ -21,6 +22,13 @@ AThrowableItem::AThrowableItem()
 
 	// Включение событие попадания (задействует NotifyHit)
 	Mesh->SetNotifyRigidBodyCollision(true);
+
+	/* ---   Components   --- */
+
+	// Компонент воспроизведения звука
+	HitSoundPlayer = CreateDefaultSubobject<UAudioComponent>(TEXT("Hit Sound Player"));
+	HitSoundPlayer->SetupAttachment(Mesh);
+	//-------------------------------------------
 }
 //--------------------------------------------------------------------------------------
 
@@ -31,6 +39,8 @@ AThrowableItem::AThrowableItem()
 void AThrowableItem::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HitSoundPlayer->Stop();
 }
 //--------------------------------------------------------------------------------------
 
@@ -70,16 +80,9 @@ void AThrowableItem::NotifyHit(
 
 void AThrowableItem::PlaySound()
 {
-	if (HitSound)
+	if (HitSoundPlayer->Sound)
 	{
-		UGameplayStatics::PlaySoundAtLocation(
-			GetWorld(),
-			HitSound,
-			GetActorLocation(),
-			1.f, // Default
-			1.f, // Default
-			0.f, // Default
-			SoundAttenuation);
+		HitSoundPlayer->Play();
 	}
 }
 //--------------------------------------------------------------------------------------

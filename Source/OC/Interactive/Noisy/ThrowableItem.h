@@ -14,6 +14,9 @@
 
 /* ---   Pre-declaration of classes   --- */
 
+// UE:
+class UAudioComponent;
+
 // Interaction:
 class AOC_Character;
 //--------------------------------------------------------------------------------------
@@ -45,11 +48,13 @@ protected:
 
 
 
-	/* ---   Collision   --- */
+	/* ---   Components   --- */
 
-	// Звук удара данного Актора
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USoundBase* HitSound = nullptr;
+	// Компонент воспроизведения звука
+	// Необходим для звукового сопровождения актора
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
+		meta = (AllowPrivateAccess = "true"))
+	UAudioComponent* HitSoundPlayer;
 	//-------------------------------------------
 
 
@@ -86,10 +91,6 @@ public:
 	// при превышении которого воспроизводится звук удара
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	float SoundSensitivity = 1000.f;
-
-	// Настройка затухания издаваемого звука
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	USoundAttenuation* SoundAttenuation = nullptr;
 
 	//
 
