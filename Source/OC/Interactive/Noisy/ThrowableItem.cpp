@@ -6,9 +6,11 @@
 // UE:
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
+#include "Components/PawnNoiseEmitterComponent.h"
 
 // Interaction:
 #include "OC/Core/OC_Character.h"
+#include "OC/Enemy/Hearing/HearingAIController.h"
 //--------------------------------------------------------------------------------------
 
 
@@ -28,6 +30,9 @@ AThrowableItem::AThrowableItem()
 	// Компонент воспроизведения звука
 	HitSoundPlayer = CreateDefaultSubobject<UAudioComponent>(TEXT("Hit Sound Player"));
 	HitSoundPlayer->SetupAttachment(Mesh);
+
+	// Компонент информирования AI о воспроизведённом звуке
+	PawnNoiseEmitter = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("Pawn Noise Emitter"));
 	//-------------------------------------------
 }
 //--------------------------------------------------------------------------------------
@@ -72,13 +77,15 @@ void AThrowableItem::NotifyHit(
 
 	if (NormalImpulse.Size() >= SoundSensitivity)
 	{
-		PlaySound();
+		PlaySoundHit();
 
-		EventWasHeard(HitLocation);
+		// Информирование врагов по локации
+		// (указать врагам, что они услышали звук)
+		EveryoneHeard(GetActorLocation());
 	}
 }
 
-void AThrowableItem::PlaySound()
+void AThrowableItem::PlaySoundHit()
 {
 	if (HitSoundPlayer->Sound)
 	{
@@ -179,5 +186,18 @@ void AThrowableItem::BindToInput()
 		EnableInput(GetWorld()->GetFirstPlayerController());
 		// Warning: Потребуется переделать, если переделывать проект на Multiplayer
 	}
+}
+//--------------------------------------------------------------------------------------
+
+
+
+/* ---   Hearing   --- */
+
+void AThrowableItem::EveryoneHeard(const FVector& Location) const
+{
+	// На рабочий вариант:
+	PawnNoiseEmitter->MakeNoise((AActor*)this, 1.f, Location);
+
+	//UE_LOG(LogTemp, Warning, TEXT("'%s': EveryoneHeard"), *GetNameSafe(this));
 }
 //--------------------------------------------------------------------------------------

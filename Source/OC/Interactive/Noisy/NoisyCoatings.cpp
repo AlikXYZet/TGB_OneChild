@@ -106,7 +106,7 @@ void ANoisyCoatings::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
-	PlaySound();
+	PlaySoundBeginOverlap();
 
 	APawn* lPawn = Cast<APawn>(OtherActor);
 
@@ -116,7 +116,7 @@ void ANoisyCoatings::NotifyActorBeginOverlap(AActor* OtherActor)
 	}
 }
 
-void ANoisyCoatings::PlaySound()
+void ANoisyCoatings::PlaySoundBeginOverlap()
 {
 	if (SettingsEachType.Find(CurrentType)->WalkingSound)
 	{

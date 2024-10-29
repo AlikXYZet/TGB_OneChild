@@ -6,6 +6,7 @@
 // UE:
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/PawnNoiseEmitterComponent.h"
 //--------------------------------------------------------------------------------------
 
 
@@ -134,7 +135,5 @@ void AOC_Character::ChangingCrouch()
 		Super::Crouch();
 		// Remark: Желательно заменить на плавный присед персонажа
 	}
-
-	EventPlayAnimCrouch();
 }
 //--------------------------------------------------------------------------------------

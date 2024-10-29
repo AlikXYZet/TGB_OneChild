@@ -1,15 +1,18 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+Ôªø// Fill out your copyright notice in the Description page of Project Settings.
 
 // Base:
 #include "HearingAIController.h"
 
 // UE:
 #include "BehaviorTree/BehaviorTree.h"
-#include "BehaviorTree/BehaviorTreeComponent.h"
-#include "BehaviorTree/BlackboardComponent.h"
+
+// UE | Perception:
+#include "Perception/AIPerceptionComponent.h"
+#include "Perception/AISenseConfig_Hearing.h"
+#include "Perception/AISenseConfig_Touch.h"
 
 // Interaction:
-#include "HearingEnemy.h"
+//#include ""
 //--------------------------------------------------------------------------------------
 
 
@@ -18,42 +21,44 @@
 
 AHearingAIController::AHearingAIController()
 {
-	//Initialize our components
-	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
-	BehaviorTreeComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
+	// –£—Å—Ç–∞–Ω–æ–≤–∫–∞ –≤—ã–∑–æ–≤–∞ —Ñ—É–Ω–∫—Ü–∏–∏ Tick() –≤ –∫–∞–∂–¥–æ–º –∫–∞–¥—Ä–µ.
+	PrimaryActorTick.bCanEverTick = true; // –ü—Ä–∏–Ω—É–¥–∏—Ç–µ–ª—å–Ω–æ!!!
+	// Warning: –í–ª–∏—è–µ—Ç –Ω–∞ –ø–æ–≤–æ—Ä–æ—Ç –æ–±–ª–∞—Å—Ç–∏ –ó—Ä–µ–Ω–∏—è (–°–µ–Ω—Å–æ—Ä–∏–∫–∞)
+	// –ü—Ä–∏ false –Ω–µ –ø–æ–≤–æ—Ä–∞—á–∏–≤–∞–µ—Ç—Å—è –æ–±–ª–∞—Å—Ç—å –∑—Ä–µ–Ω–∏—è, –ø–æ—ç—Ç–æ–º—É –¥–µ—Ä–∂–∏–º –≤—Å–µ–≥–¥–∞ true
 
+
+
+	/* ---   Components   --- */
+
+	// –°–µ–Ω—Å–æ—Ä–∏–∫–∞
+	AIPerception = CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("AI Perception"));
+
+	// –î–æ–º–∏–Ω–∞–Ω—Ç–Ω–æ—Å—Ç—å –ø–æ —Ç–∏–ø—É: 
+	//PerceptionComponent->SetDominantSense(UAISenseConfig_Touch::StaticClass());
+	// Error: –û—à–∏–±–∫–∞ –¥–æ—Å—Ç—É–ø–∞ –∫ –ø–∞–º—è—Ç–∏;
+
+	// –î–æ–±–∞–≤–ª–µ–Ω–∏–µ –ö–∞—Å–∞–Ω–∏—è
+	TouchSense = CreateDefaultSubobject<UAISenseConfig_Touch>(TEXT("Touch Sense"));
+	AIPerception->ConfigureSense(*TouchSense);
+
+	// –î–æ–±–∞–≤–ª–µ–Ω–∏–µ –°–ª—É—Ö–∞
+	HearingSense = CreateDefaultSubobject<UAISenseConfig_Hearing>(TEXT("Hearing Sense"));
+	AIPerception->ConfigureSense(*HearingSense);
+	//-------------------------------------------
 }
 //--------------------------------------------------------------------------------------
 
 
 
-/* ---   Hearing   --- */
+/* ---   Base   --- */
 
 void AHearingAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	//if (InPawn)
-	//{
-	//	AHearingEnemy* Char = Cast<AHearingEnemy>(InPawn);
+	// –ó–∞–ø—É—Å–∫ –≤—ã–±—Ä–∞–Ω–Ω–æ–≥–æ –î–µ—Ä–µ–≤–∞ –ø–æ–≤–µ–¥–µ–Ω–∏—è
+	RunBehaviorTree(BehaviorTree);
 
-	//	//RunBehaviorTree(Char->BehaviorTree);
-
-	//	// ≈ÒÎË Ì‡¯ ÔÂÒÓÌ‡Ê ˇ‚ÎˇÂÚÒˇ ‰ÓÔÛÒÚËÏ˚Ï Ë ËÏÂÂÚ ‰ÓÔÛÒÚËÏÓÂ ‰ÂÂ‚Ó ÔÓ‚Â‰ÂÌËˇ, ÚÓ
-	//	if (Char && Char->BehaviorTree->BlackboardAsset)
-	//	{
-	//		// »ÌËˆË‡ÎËÁËÛÂÏ ÁÌ‡˜ÂÌËÂ Ì‡ ‰ÓÒÍÂ
-	//		BlackboardComp->InitializeBlackboard(*Char->BehaviorTree->BlackboardAsset);
-
-	//		// «‡ÔÛÒÍ‡ÂÏ ‰ÂÂ‚Ó
-	//		BehaviorTreeComp->StartTree(*Char->BehaviorTree);
-	//	}
-	//}
-}
-
-void AHearingAIController::SetSensedTarget(APawn* NewTarget)
-{
-	// ”ÒÚ‡ÌÓ‚ËÚ¸ ÷ÂÎ¸ ÔÂÒÎÂ‰Ó‚‡ÌËˇ
-	//if (BlackboardComp) BlackboardComp->SetValueAsObject(TargetKey, NewTarget);
+	//UE_LOG(LogTemp, Warning, TEXT("'%s': OnPossess CHECK"), *GetNameSafe(this));
 }
 //--------------------------------------------------------------------------------------

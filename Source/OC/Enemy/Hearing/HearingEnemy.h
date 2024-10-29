@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+п»ї// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -13,10 +13,6 @@
 
 
 /* ---   Pre-declaration of classes   --- */
-
-// UE:
-class UPawnSensingComponent;
-class UBehaviorTree;
 //--------------------------------------------------------------------------------------
 
 
@@ -36,46 +32,16 @@ public:
 
 
 
-	/* ---   Components   --- */
-
-	// Компонент Сенсорики, используемый для отслеживания других Пешек
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
-		meta = (AllowPrivateAccess = "true"))
-	UPawnSensingComponent* PawnSensing;
-
-	// Дерево поведения
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Components,
-		meta = (AllowPrivateAccess = "true"))
-	UBehaviorTree* BehaviorTree;
-	//-------------------------------------------
-
-
-
 protected:
 
 	/* ---   Base   --- */
 
-	// Вызывается при запуске игры или при запуске spawn
+	// Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё Р·Р°РїСѓСЃРєРµ РёРіСЂС‹ РёР»Рё РїСЂРё Р·Р°РїСѓСЃРєРµ spawn
 	virtual void BeginPlay() override;
 	//-------------------------------------------
 
 
 
 public:
-
-	/* ---   Hearing   --- */
-
-	/** Реакции на звук
-	@param	PawnInstigator	- Пешка инициирующая звук
-	@param	Location		- Местоположение источника звука
-	@param	Volume			- Сила звука
-	*/
-	UFUNCTION()
-	void OnHearNoise(APawn* PawnInstigator, const FVector& Location, float Volume);
-	//-------------------------------------------
-
-
-
 private:
-
 };

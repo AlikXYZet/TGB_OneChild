@@ -16,6 +16,7 @@
 
 // UE:
 class UCameraComponent;
+class UPawnNoiseEmitterComponent;
 //--------------------------------------------------------------------------------------
 
 
@@ -43,12 +44,12 @@ public:
 	UCameraComponent* FirstPersonCameraComponent;
 
 	// Точка местоположения Подобранного Актора
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
 		meta = (AllowPrivateAccess = "true"))
 	USceneComponent* TakenActorLocationPoint = nullptr;
 
 	// Подобранный Актор
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components, 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
 		meta = (AllowPrivateAccess = "true"))
 	UChildActorComponent* TakenActor = nullptr;
 	//-------------------------------------------
@@ -69,12 +70,40 @@ protected:
 
 	/** Вызывается для привязки функциональности к входным данным */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	//-------------------------------------------
+
+
+
+public:
+
+	/* ---   Input Action   --- */
+
+	// Базовая скорость поворота, град/сек
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Camera")
+	float BaseTurnRate = 1.f;
+
+	// Базовая скорость обзора вверх/вниз в градусах в секунду
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Camera")
+	float BaseLookUpRate = 1.f;
+
+	// Флаг изменения состояния приседа
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Input Action")
+	bool bCrouchEnabled = false;
+
+	//
 
 	/** Запуск Прыжка */
 	virtual void Jump() override;
 
 	/** Прекращение Прыжка */
 	virtual void StopJumping() override;
+	//-------------------------------------------
+
+
+
+private:
+
+	/* ---   Input Action   --- */
 
 	/** Перемещение вперёд/назад */
 	void MoveForward(float Val);
@@ -90,38 +119,5 @@ protected:
 
 	/** Начало Приседа */
 	void ChangingCrouch();
-
-	/** */
-	UFUNCTION(BlueprintImplementableEvent, Category = "Hearing",
-		meta = (DisplayName = "PlayAnimCrouch"))
-	void EventPlayAnimCrouch();
-	//-------------------------------------------
-
-
-
-public:
-
-	/* ---   Input Action   --- */
-
-	// Базовая скорость поворота, град/сек
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate = 1.f;
-
-	// Базовая скорость обзора вверх/вниз в градусах в секунду
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate = 1.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement|State Control")
-	bool bCrouchEnabled = false;
-	//-------------------------------------------
-
-
-
-private:
-
-	/* ---   Base   --- */
-
-	/**	Удаление пустых элементов текущего Актора */
-	//void Cleaning();
 	//-------------------------------------------
 };

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+п»ї// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -15,8 +15,12 @@
 /* ---   Pre-declaration of classes   --- */
 
 // UE:
-class UBehaviorTreeComponent;
-class UBlackboardComponent;
+class UBehaviorTree;
+
+// UE | Perception:
+class UAIPerceptionComponent;
+class UAISenseConfig_Touch;
+class UAISenseConfig_Hearing;
 //--------------------------------------------------------------------------------------
 
 
@@ -25,7 +29,7 @@ UCLASS()
 class OC_API AHearingAIController : public AAIController
 {
 	GENERATED_BODY()
-	
+
 
 
 public:
@@ -38,33 +42,46 @@ public:
 
 
 
-protected:
-
 	/* ---   Components   --- */
 
-	// Компонент дерева поведения, позволяющий вызывать определенные функции, такие как запуск нашего BT
-	UBehaviorTreeComponent* BehaviorTreeComp;
+	// РљРѕРјРїРѕРЅРµРЅС‚ РЎРµРЅСЃРѕСЂРёРєРё, РёСЃРїРѕР»СЊР·СѓРµРјС‹Р№ РґР»СЏ РѕС‚СЃР»РµР¶РёРІР°РЅРёСЏ РґСЂСѓРіРёС… РџРµС€РµРє
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
+		meta = (AllowPrivateAccess = "true"))
+	UAIPerceptionComponent* AIPerception;
+	//-------------------------------------------
 
-	// Компонент Blackboard, который будет использоваться для инициализации наших значений на доске Дерева поведения
-	UBlackboardComponent* BlackboardComp;
+
+
+protected:
+
+	/* ---   AI   --- */
+
+	// Р”РµСЂРµРІРѕ РїРѕРІРµРґРµРЅРёСЏ, РёСЃРїРѕР»СЊР·СѓРµРјРѕРµ РІ AI
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+	UBehaviorTree* BehaviorTree;
 	//-------------------------------------------
 
 
 
 public:
 
-	/* ---   Hearing   --- */
+	/* ---   Base   --- */
 
-	// Ключ для поиска
-	UPROPERTY(EditDefaultsOnly)
-	FName TargetKey = "SensedPawn";
-
-	//
-
-	/** Вызывается при подключении к Пешке */
+	/** Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё РїРѕРґРєР»СЋС‡РµРЅРёРё Рє РџРµС€РєРµ */
 	virtual void OnPossess(APawn* InPawn) override;
-
-	/** Устанавливает новое измеренное целевое значение внутри наших значений на доске */
-	void SetSensedTarget(APawn* NewTarget);
 	//-------------------------------------------
+
+		/* ---   Perception   --- */
+
+	// РљР°СЃР°РЅРёРµ
+	UAISenseConfig_Touch* TouchSense;
+
+	// РЎР»СѓС…
+	UAISenseConfig_Hearing* HearingSense;
+	//-------------------------------------------
+
+private:
+
+
+
 };
