@@ -41,9 +41,12 @@ AHearingAIController::AHearingAIController()
 	TouchSense = CreateDefaultSubobject<UAISenseConfig_Touch>(TEXT("Touch Sense"));
 	AIPerception->ConfigureSense(*TouchSense);
 
-	// Добавление Слуха
+	// Добавление Слуха и его настройка
 	HearingSense = CreateDefaultSubobject<UAISenseConfig_Hearing>(TEXT("Hearing Sense"));
 	AIPerception->ConfigureSense(*HearingSense);
+	HearingSense->DetectionByAffiliation.bDetectEnemies = true;
+	HearingSense->DetectionByAffiliation.bDetectNeutrals = true;
+	HearingSense->DetectionByAffiliation.bDetectFriendlies = true;
 	//-------------------------------------------
 }
 //--------------------------------------------------------------------------------------

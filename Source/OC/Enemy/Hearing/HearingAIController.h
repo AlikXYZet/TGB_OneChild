@@ -71,7 +71,9 @@ public:
 	virtual void OnPossess(APawn* InPawn) override;
 	//-------------------------------------------
 
-		/* ---   Perception   --- */
+
+
+	/* ---   Perception   --- */
 
 	// Касание
 	UAISenseConfig_Touch* TouchSense;
@@ -80,8 +82,8 @@ public:
 	UAISenseConfig_Hearing* HearingSense;
 	//-------------------------------------------
 
+
+
 private:
-
-
 
 };
