@@ -6,6 +6,10 @@
 // UE:
 #include "Kismet/GameplayStatics.h"
 #include "Components/BoxComponent.h"
+#include "Perception/AISense_Hearing.h"
+
+// Interaction:
+#include "OC/Enemy/Hearing/HearingEnemy.h"
 //--------------------------------------------------------------------------------------
 
 
@@ -106,17 +110,16 @@ void ANoisyCoatings::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
-	PlaySoundBeginOverlap();
+	PlaySoundOfBeginOverlap();
 
-	APawn* lPawn = Cast<APawn>(OtherActor);
-
-	if (lPawn)
+	// Проверка воздействия Врага
+	if (!Cast<AHearingEnemy>(OtherActor))
 	{
-		EventWasHeard(GetActorLocation(), lPawn);
+		ReportNoiseOfBeginOverlap();
 	}
 }
 
-void ANoisyCoatings::PlaySoundBeginOverlap()
+void ANoisyCoatings::PlaySoundOfBeginOverlap()
 {
 	if (SettingsEachType.Find(CurrentType)->WalkingSound)
 	{
@@ -129,6 +132,15 @@ void ANoisyCoatings::PlaySoundBeginOverlap()
 			0.f, // Default
 			SoundAttenuation);
 	}
+}
+
+void ANoisyCoatings::ReportNoiseOfBeginOverlap()
+{
+	UAISense_Hearing::ReportNoiseEvent(
+		GetWorld(),
+		GetActorLocation(),
+		1.f, // Default
+		this);
 }
 //--------------------------------------------------------------------------------------
 

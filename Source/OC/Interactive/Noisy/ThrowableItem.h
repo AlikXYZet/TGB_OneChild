@@ -16,11 +16,9 @@
 
 // UE:
 class UAudioComponent;
-class UPawnNoiseEmitterComponent;
 
 // Interaction:
 class AOC_Character;
-class AHearingAIController;
 //--------------------------------------------------------------------------------------
 
 
@@ -57,11 +55,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
 		meta = (AllowPrivateAccess = "true"))
 	UAudioComponent* HitSoundPlayer;
-
-	// Компонент информирования AI о воспроизведённом звуке
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Components,
-		meta = (AllowPrivateAccess = "true"))
-	UPawnNoiseEmitterComponent* PawnNoiseEmitter;
 	//-------------------------------------------
 
 
@@ -112,7 +105,10 @@ private:
 	/* ---   Collision   --- */
 
 	/** Воспроизведение звука при каком-либо ударе данного Актора */
-	void PlaySoundHit();
+	void PlaySoundOfHit();
+
+	/** Сигнализация о шуме для AI */
+	void ReportNoiseOfHit();
 	//-------------------------------------------
 
 
@@ -141,13 +137,5 @@ private:
 
 	/** Привязка к управлению игрока */
 	void BindToInput();
-	//-------------------------------------------
-
-
-
-	/* ---   Hearing   --- */
-
-	/** Проинформировать все "слушающие" AI */
-	void EveryoneHeard(const FVector& Location) const;
 	//-------------------------------------------
 };
